@@ -1,0 +1,60 @@
+<?xml version='1.0'?>
+
+<launch>
+
+  <!-- global parameters -->
+  <param       name           = 'use_sim_time'
+               value          = 'true'/>
+  <arg         name           = 'use_ackermann_model'
+               default        = 'true'/>
+  <arg         name           = 'use_adaptive_lookahead'
+               default        = 'false'/>
+  <arg         name           = 'adaptive_lookahead_dist'
+               default        = '2.0'/>
+  <arg         name           = 'velocity_scaler'
+               default        = '0.65'/>
+  <arg         name           = 'number_laps'
+               default        = '100'/>
+  <arg         name           = 'car_name'
+               default        = 'panaut'/>
+  <arg         name           = 'car_paint'
+               default        = 'Yellow'/>
+  <arg         name           = 'run_gazebo'
+               default        = 'true'/>
+  <arg         name           = 'x_pos'
+               default        = '2.5'/>
+  <arg         name           = 'y_pos'
+               default        = '-7.0'/>
+  <arg         name           = 'run_rviz'
+               default        = 'true'/>
+
+
+  <!-- find nearest pose -->
+  <node        name           = 'nearest_pose_isolator'
+               pkg            = 'path_following'
+               type           = 'find_nearest_pose.py'
+               args           = '$(arg car_name) raceline'/>
+
+<?ignore
+  <!-- calculate lookahead distance range -->
+  <node        name           = 'adaptive_lookahead_node'
+               pkg            = 'path_following'
+               type           = 'adaptive_lookahead.py'
+               args           = '$(arg car_name) raceline_sectors_original'/>
+?>
+
+  <!-- find goal using lookahead distance -->
+  <node        name           = 'nearest_goal_isolator'
+               pkg            = 'path_following'
+               type           = 'find_nearest_goal.py'
+               args           = '$(arg car_name) raceline $(arg use_adaptive_lookahead) $(arg adaptive_lookahead_dist)'/>
+
+  <!-- vehicle controller -->
+  <node        name           = 'purepursuit_controller'
+               pkg            = 'path_following'
+               type           = 'vehicle_controller.py'
+               args           = '$(arg car_name) $(arg use_ackermann_model) $(arg use_adaptive_lookahead) $(arg velocity_scaler)'/>
+
+
+
+</launch>
