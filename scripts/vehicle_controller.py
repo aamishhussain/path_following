@@ -87,7 +87,7 @@ MSG_GOAL            = "recieved new goal: ({}, {})"
 
 # command publisher
 
-command_pub = rospy.Publisher('/{}/command'.format(car_name), AckermannDriveStamped, queue_size = 1)
+command_pub = rospy.Publisher('/ackermann_drive_stamped', AckermannDriveStamped, queue_size = 1)
 
 # deviation publisher
 
