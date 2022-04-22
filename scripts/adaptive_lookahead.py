@@ -11,7 +11,7 @@ from std_msgs.msg import String
 
 car_name         = str(sys.argv[1])
 sector_list_name = str(sys.argv[2])
-#fddfdf
+
 sectors = []
 
 decision_pub  = rospy.Publisher('/{}/purepursuit_control/adaptive_lookahead'.format(car_name), String, queue_size = 1)

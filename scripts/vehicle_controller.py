@@ -10,6 +10,7 @@ import tf2_geometry_msgs
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Pose
 from ackermann_msgs.msg import AckermannDrive
+from ackermann_msgs.msg import AckermannDriveStamped
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from std_msgs.msg import Float64
@@ -86,7 +87,7 @@ MSG_GOAL            = "recieved new goal: ({}, {})"
 
 # command publisher
 
-command_pub = rospy.Publisher('/{}/command'.format(car_name), AckermannDrive, queue_size = 1)
+command_pub = rospy.Publisher('/{}/command'.format(car_name), AckermannDriveStamped, queue_size = 1)
 
 # deviation publisher
 
@@ -247,7 +248,11 @@ def vehicle_control_node(data):
     if command.speed > SPEED_TURN_MIN:
         command.speed = SPEED_TURN_MIN
 
-    command_pub.publish(command)
+    stamped_command = AckermannDriveStamped()
+    stamped_command.header.stamp = rospy.Time.now()
+    stamped_command.drive=command
+
+    command_pub.publish(stamped_command)
 
 # relative pose callback
 

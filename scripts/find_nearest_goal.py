@@ -99,8 +99,8 @@ def pose_callback(data):
     goal.header.frame_id    = frame_id
     goal.pose.position.x    = plan[pose_index][0]
     goal.pose.position.y    = plan[pose_index][1]
-    goal.pose.orientation.z = plan[pose_index][2]
-    goal.pose.orientation.w = plan[pose_index][3]
+    goal.pose.orientation.z = 0
+    goal.pose.orientation.w = 0
 
     ang_goal_pub.publish(goal)
 
@@ -118,8 +118,8 @@ def pose_callback(data):
     goal.header.frame_id    = frame_id
     goal.pose.position.x    = plan[pose_index][0]
     goal.pose.position.y    = plan[pose_index][1]
-    goal.pose.orientation.z = plan[pose_index][2]
-    goal.pose.orientation.w = plan[pose_index][3]
+    goal.pose.orientation.z = 0
+    goal.pose.orientation.w = 0
 
     seq = seq + 1
 
