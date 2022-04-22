@@ -115,13 +115,13 @@ def vehicle_control_node(data):
 
     global lookahead_state
 
-    curr_x = data.pose.pose.position.x
-    curr_y = data.pose.pose.position.y
+    curr_x = data.pose.position.x
+    curr_y = data.pose.position.y
 
-    heading = tf.transformations.euler_from_quaternion((data.pose.pose.orientation.x,
-                                                        data.pose.pose.orientation.y,
-                                                        data.pose.pose.orientation.z,
-                                                        data.pose.pose.orientation.w))[2]
+    heading = tf.transformations.euler_from_quaternion((data.pose.orientation.x,
+                                                        data.pose.orientation.y,
+                                                        data.pose.orientation.z,
+                                                        data.pose.orientation.w))[2]
 
     # begin test (include wheel base)
 
@@ -288,7 +288,7 @@ if __name__ == '__main__':
     try:
         rospy.init_node('vehicle_control_node', anonymous = True)
 
-        rospy.Subscriber('/{}/base/odom'.format(car_name), Odometry, vehicle_control_node)
+        rospy.Subscriber('/tracked_pose', PoseStamped, vehicle_control_node)
 
         if adaptive_lookahead == 'true':
             rospy.Subscriber('/{}/purepursuit_control/adaptive_lookahead'.format(car_name), String, dist_callback)
