@@ -7,6 +7,7 @@ import math
 import csv
 
 from geometry_msgs.msg import PoseStamped
+from gazebo_msgs.msg import ModelStates
 from std_msgs.msg import Int64
 from std_msgs.msg import String
 

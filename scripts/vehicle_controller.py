@@ -11,6 +11,7 @@ from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Pose
 from ackermann_msgs.msg import AckermannDrive
 from ackermann_msgs.msg import AckermannDriveStamped
+from gazebo_msgs.msg import ModelStates
 from nav_msgs.msg import Odometry
 from std_msgs.msg import String
 from std_msgs.msg import Float64
@@ -115,13 +116,13 @@ def vehicle_control_node(data):
 
     global lookahead_state
 
-    curr_x = data.pose.position.x
-    curr_y = data.pose.position.y
+    curr_x = data.pose[1].position.x
+    curr_y = data.pose[1].position.y
 
-    heading = tf.transformations.euler_from_quaternion((data.pose.orientation.x,
-                                                        data.pose.orientation.y,
-                                                        data.pose.orientation.z,
-                                                        data.pose.orientation.w))[2]
+    heading = tf.transformations.euler_from_quaternion((data.pose[1].orientation.x,
+                                                        data.pose[1].orientation.y,
+                                                        data.pose[1].orientation.z,
+                                                        data.pose[1].orientation.w))[2]
 
     # begin test (include wheel base)
 
@@ -288,7 +289,7 @@ if __name__ == '__main__':
     try:
         rospy.init_node('vehicle_control_node', anonymous = True)
 
-        rospy.Subscriber('/tracked_pose', PoseStamped, vehicle_control_node)
+        rospy.Subscriber('/gazebo/model_states', ModelStates, vehicle_control_node)
 
         if adaptive_lookahead == 'true':
             rospy.Subscriber('/{}/purepursuit_control/adaptive_lookahead'.format(car_name), String, dist_callback)

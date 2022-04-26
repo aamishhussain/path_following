@@ -33,8 +33,8 @@ def construct_path():
 
 def odom_callback(data):
     min_index      = Int64()
-    curr_x         = data.pose.position.x
-    curr_y         = data.pose.position.y
+    curr_x         = data.pose[1].position.x
+    curr_y         = data.pose[1].position.y
     min_index.data = find_nearest_point(curr_x, curr_y)
     min_index_pub.publish(min_index)
 
@@ -58,7 +58,7 @@ if __name__ == '__main__':
         if not plan:
             rospy.loginfo('obtaining trajectory')
             construct_path()
-        rospy.Subscriber('/tracked_pose', PoseStamped, odom_callback)
+        rospy.Subscriber('/gazebo/model_states', ModelStates, odom_callback)
         rospy.spin()
     except rospy.ROSInterruptException:
         pass
