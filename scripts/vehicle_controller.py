@@ -9,6 +9,7 @@ import tf2_geometry_msgs
 
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import Pose
+from drive_msgs.msg import drive_param
 from ackermann_msgs.msg import AckermannDrive
 from ackermann_msgs.msg import AckermannDriveStamped
 from gazebo_msgs.msg import ModelStates
@@ -89,6 +90,7 @@ MSG_GOAL            = "recieved new goal: ({}, {})"
 # command publisher
 
 command_pub = rospy.Publisher('/ackermann_drive_stamped', AckermannDriveStamped, queue_size = 1)
+command_pub_with_drive_param=rospy.Publisher('/commands/drive_param',drive_param,queue_size=1)
 
 # deviation publisher
 
@@ -254,6 +256,12 @@ def vehicle_control_node(data):
     stamped_command.drive=command
 
     command_pub.publish(stamped_command)
+
+    drive_param_command=drive_param()
+    drive_param_command.angle=command.steering_angle
+    drive_param_command.velocity=command.speed
+    command_pub_with_drive_param.publish(drive_param_command)
+
 
 # relative pose callback
 
