@@ -224,7 +224,7 @@ def vehicle_control_node(data):
     # command.speed          = 1.0 - (angle_error/ANGLE_RANGE_A) # * (SPEED_TURN_MIN - SPEED_TURN_MAX)
     # command.speed          = command.speed + SPEED_TURN_MAX
 
-    if goal_sector == GOAL_RIGHT:
+    if goal_sector == GOAL_LEFT:
         command.steering_angle = -1.0 * command.steering_angle
 
     # velocity control node
