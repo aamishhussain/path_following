@@ -135,7 +135,9 @@ def vehicle_control_node(data):
     # end logging range
 
     if use_ackermann_model == 'true':
-
+        
+        # moving the current point to the front of the car
+        # we should know the reference frame from which curr_x and curr_y are defined
         front_axle_x = (WHEELBASE_LEN * math.cos(heading)) + curr_x
         front_axle_y = (WHEELBASE_LEN * math.sin(heading)) + curr_y
 
