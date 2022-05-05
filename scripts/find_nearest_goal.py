@@ -40,7 +40,7 @@ def construct_path():
     file_path = os.path.expanduser('/home/sim/f1-10-simulator/catkin_ws/src/path_following/path/{}.csv'.format(trajectory_name))
 
     with open(file_path) as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter = ',')
+        csv_reader = csv.reader(csv_file, delimiter = ';')
         for waypoint in csv_reader:
             plan.append(waypoint)
 
@@ -98,10 +98,10 @@ def pose_callback(data):
     goal.header.seq         = seq
     goal.header.stamp       = rospy.Time.now()
     goal.header.frame_id    = frame_id
-    goal.pose.position.x    = plan[pose_index][0]
-    goal.pose.position.y    = plan[pose_index][1]
+    goal.pose.position.x    = plan[pose_index][1]
+    goal.pose.position.y    = plan[pose_index][2]
     goal.pose.orientation.z = 0
-    goal.pose.orientation.w = 0
+    goal.pose.orientation.w = 1
 
     ang_goal_pub.publish(goal)
 
@@ -117,10 +117,10 @@ def pose_callback(data):
     goal.header.seq         = seq
     goal.header.stamp       = rospy.Time.now()
     goal.header.frame_id    = frame_id
-    goal.pose.position.x    = plan[pose_index][0]
-    goal.pose.position.y    = plan[pose_index][1]
+    goal.pose.position.x    = plan[pose_index][1]
+    goal.pose.position.y    = plan[pose_index][2]
     goal.pose.orientation.z = 0
-    goal.pose.orientation.w = 0
+    goal.pose.orientation.w = 1
 
     seq = seq + 1
 

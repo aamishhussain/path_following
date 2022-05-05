@@ -10,7 +10,7 @@
   <arg         name           = 'use_adaptive_lookahead'
                default        = 'false'/>
   <arg         name           = 'adaptive_lookahead_dist'
-               default        = '2.0'/>
+               default        = '2'/>
   <arg         name           = 'velocity_scaler'
                default        = '0.65'/>
   <arg         name           = 'number_laps'
@@ -33,7 +33,8 @@
   <node        name           = 'nearest_pose_isolator'
                pkg            = 'path_following'
                type           = 'find_nearest_pose.py'
-               args           = '$(arg car_name) raceline'/>
+               output="screen"
+               args           = '$(arg car_name) monza'/>
 
 <?ignore
   <!-- calculate lookahead distance range -->
@@ -47,12 +48,14 @@
   <node        name           = 'nearest_goal_isolator'
                pkg            = 'path_following'
                type           = 'find_nearest_goal.py'
-               args           = '$(arg car_name) raceline $(arg use_adaptive_lookahead) $(arg adaptive_lookahead_dist)'/>
+	       output="screen"	
+               args           = '$(arg car_name) monza $(arg use_adaptive_lookahead) $(arg adaptive_lookahead_dist)'/>
 
   <!-- vehicle controller -->
   <node        name           = 'purepursuit_controller'
                pkg            = 'path_following'
                type           = 'vehicle_controller.py'
+               output="screen" 
                args           = '$(arg car_name) $(arg use_ackermann_model) $(arg use_adaptive_lookahead) $(arg velocity_scaler)'/>
 
 
