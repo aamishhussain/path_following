@@ -28,13 +28,31 @@
   <arg         name           = 'run_rviz'
                default        = 'true'/>
 
-
+<?ignore
   <!-- find nearest pose -->
   <node        name           = 'nearest_pose_isolator'
                pkg            = 'path_following'
                type           = 'find_nearest_pose.py'
                output="screen"
                args           = '$(arg car_name) monza'/>
+
+?>               
+
+<?ignore
+  <!--  -->
+  <node        name           = 'latch'
+               pkg            = 'path_following'
+               type           = 'latch_index.py'
+               output="screen"
+               args           = '$(arg car_name) monza'/>
+
+  <node        name           = 'thresholding'
+               pkg            = 'path_following'
+               type           = 'check_threshold.py'
+               output="screen"
+               args           = '$(arg car_name) monza'/>             
+
+?>                              
 
 <?ignore
   <!-- calculate lookahead distance range -->
@@ -44,12 +62,12 @@
                args           = '$(arg car_name) raceline_sectors_original'/>
 ?>
 
-  <!-- find goal using lookahead distance -->
-  <node        name           = 'nearest_goal_isolator'
+  <!-- answers the question which target to follow -->
+  <node        name           = 'target_manager'
                pkg            = 'path_following'
-               type           = 'find_nearest_goal.py'
-	       output="screen"	
-               args           = '$(arg car_name) monza $(arg use_adaptive_lookahead) $(arg adaptive_lookahead_dist)'/>
+               type           = 'target_manager.py'
+	             output="screen"	
+               args           = '$(arg car_name) coordinatesRacetrack $(arg use_adaptive_lookahead) $(arg adaptive_lookahead_dist)'/>
 
   <!-- vehicle controller -->
   <node        name           = 'purepursuit_controller'
