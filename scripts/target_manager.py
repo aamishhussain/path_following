@@ -50,6 +50,13 @@ unrestricted_lookahead = 3.00
 global ang_lookahead_dist
 global vel_lookahead_dist
 
+if adaptive_lookahead != 'true':
+    ang_lookahead_dist = int(float(sys.argv[4]) * 100)
+    vel_lookahead_dist = ang_lookahead_dist * 2
+else:
+    ang_lookahead_dist = 100
+    vel_lookahead_dist = 200
+
 
 def construct_path():
     global plan_size
