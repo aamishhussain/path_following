@@ -40,7 +40,7 @@ global current_index
 current_index = 0
 global threshold 
 
-threshold = 0.2
+threshold = 1.5
 
 
 brake_lookahead        = 2.00
@@ -102,7 +102,7 @@ def odom_callback(data):
     curr_y         = data.pose[1].position.y
     check_threshold(curr_x, curr_y)
 
-    pose_index = (current_index + ang_lookahead_dist) % plan_size
+    pose_index = current_index
     
     #print (pose_index)
     #print "is the index"
@@ -117,7 +117,7 @@ def odom_callback(data):
 
     ang_goal_pub.publish(goal)
 
-    pose_index = (current_index + vel_lookahead_dist) % plan_size
+    pose_index = current_index
 
 
     goal                    = PoseStamped()
@@ -132,10 +132,6 @@ def odom_callback(data):
     seq = seq + 1
 
     vel_goal_pub.publish(goal)
-
-
-
-
      
 
 if __name__ == '__main__':
