@@ -22,7 +22,7 @@ plan = []
 
 #index_pub = rospy.Publisher('/{}/purepursuit_control/index_nearest_point'.format(car_name), Int64, queue_size = 1)
 #min_pose_pub  = rospy.Publisher('/{}/purepursuit_control/visualize_nearest_point'.format(car_name), PoseStamped, queue_size = 1)
-index_change_pub = rospy.Publisher('/{}/purepursuit_control/change_the_index'.format(car_name), Bool, queue_size = 1)
+#index_change_pub = rospy.Publisher('/{}/purepursuit_control/change_the_index'.format(car_name), Bool, queue_size = 1)
 
 
 global plan_size
@@ -75,9 +75,9 @@ def check_threshold(curr_x, curr_y):
     eucl_x = math.pow(curr_x - plan[current_index][1], 2)
     eucl_y = math.pow(curr_y - plan[current_index][2], 2)
     eucl_d = math.sqrt(eucl_x + eucl_y)
-    if  current_index == (len(plan)-1) and threshold <= eucl_d:
+    if  current_index == (len(plan)-1) and threshold >= eucl_d:
         current_index =0
-    elif current_index != (len(plan)-1) and threshold <= eucl_d: 
+    elif current_index != (len(plan)-1) and threshold >= eucl_d: 
         current_index +=1  
 
 
@@ -97,6 +97,8 @@ def odom_callback(data):
 
     pose_index = (current_index + ang_lookahead_dist) % plan_size
     
+    print (pose_index)
+    print "is the index"
     goal                    = PoseStamped()
     goal.header.seq         = seq
     goal.header.stamp       = rospy.Time.now()
@@ -109,6 +111,7 @@ def odom_callback(data):
     ang_goal_pub.publish(goal)
 
     pose_index = (current_index + vel_lookahead_dist) % plan_size
+
 
     goal                    = PoseStamped()
     goal.header.seq         = seq
@@ -130,7 +133,7 @@ def odom_callback(data):
 
 if __name__ == '__main__':
     try:
-        rospy.init_node('thresholding', anonymous = True)
+        rospy.init_node('target_manager', anonymous = True)
         if not plan:
             rospy.loginfo('obtaining trajectory')
             construct_path()
