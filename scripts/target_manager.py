@@ -97,14 +97,14 @@ def odom_callback(data):
 
     pose_index = (current_index + ang_lookahead_dist) % plan_size
     
-    print (pose_index)
-    print "is the index"
+    #print (pose_index)
+    #print "is the index"
     goal                    = PoseStamped()
     goal.header.seq         = seq
     goal.header.stamp       = rospy.Time.now()
     goal.header.frame_id    = frame_id
-    goal.pose.position.x    = plan[pose_index][1]
-    goal.pose.position.y    = plan[pose_index][2]
+    goal.pose.position.x    = plan[int(pose_index)][1]
+    goal.pose.position.y    = plan[int(pose_index)][2]
     goal.pose.orientation.z = 0
     goal.pose.orientation.w = 1
 
@@ -117,8 +117,8 @@ def odom_callback(data):
     goal.header.seq         = seq
     goal.header.stamp       = rospy.Time.now()
     goal.header.frame_id    = frame_id
-    goal.pose.position.x    = plan[pose_index][1]
-    goal.pose.position.y    = plan[pose_index][2]
+    goal.pose.position.x    = plan[int(pose_index)][1]
+    goal.pose.position.y    = plan[int(pose_index)][2]
     goal.pose.orientation.z = 0
     goal.pose.orientation.w = 1
 
